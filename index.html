@@ -116,7 +116,7 @@
 
         .embed-container {
             background: rgba(255, 255, 255, 0.95);
-            padding: 10px;
+            padding: 15px;
             border-radius: 20px;
             width: 100%;
             display: flex;
@@ -125,11 +125,9 @@
             box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
         }
 
-        .embed-container iframe {
+        .embed-container audio {
             display: block;
             width: 100%;
-            height: 150px;
-            border-radius: 12px;
         }
 
         /* --- Vision Section --- */
@@ -277,9 +275,12 @@
         <h2 class="main-title">THOW FM RADIO</h2>
         
         <div class="radio-card" id="live">
-            <!-- Mfumo wa Embed uliowekwa ndani ya box maalum lenye background safi -->
+            <!-- Mfumo wa Audio Player uliowekewa link salama ya DuckDNS -->
             <div class="embed-container">
-                <iframe src="https://158.220.108.124/public/thow_fm_radio/embed" frameborder="0" allowtransparency="true"></iframe>
+                <audio id="thowPlayer" controls crossorigin="anonymous" preload="none">
+                    <source src="https://thowfmradio.duckdns.org/listen/thow_fm_radio/radio.mp3" type="audio/mpeg">
+                    Kivinjari chako hakisapoti kicheza sauti hiki.
+                </audio>
             </div>
             <p style="margin-top: 15px; font-weight: 600;">Pastor Arnold Zacharia</p>
         </div>
@@ -348,6 +349,25 @@
         <p>© 2026 THOW FM RADIO - The House of Winners Ministry</p>
         <p style="font-size: 0.8rem; opacity: 0.6; margin-top: 10px;">Design powered by TTD +255 757 344 860</p>
     </footer>
+
+    <!-- Script maalum inayolinda uchezaji wa Live Stream kwenye Simu za mkononi -->
+    <script>
+        const player = document.getElementById('thowPlayer');
+        const streamUrl = "https://thowfmradio.duckdns.org/listen/thow_fm_radio/radio.mp3";
+
+        player.addEventListener('play', () => {
+            // Inalazimisha kivinjari kuvuta stream mpya ya sasa hivi badala ya ile iliyohifadhiwa (cache)
+            if(!player.src || player.src === window.location.href) {
+                player.src = streamUrl;
+            }
+        });
+
+        player.addEventListener('pause', () => {
+            // Inakata muunganisho kabisa mtumiaji anapozima redio ili kuzuia bando kuendelea kuliwa chinichini kwenye simu
+            player.src = ""; 
+            player.load();
+        });
+    </script>
 
 </body>
 </html>
