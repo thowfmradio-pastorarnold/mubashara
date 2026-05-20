@@ -129,7 +129,6 @@
             background: var(--primary-orange);
             border-radius: 10px;
             animation: wave-animation 1s ease-in-out infinite;
-            animation-play-state: paused; /* Inasimama hadi player ianze kuplay */
         }
 
         .wave-bar:nth-child(2) { animation-delay: 0.1s; }
@@ -297,12 +296,9 @@
                 <div class="wave-bar"></div>
             </div>
 
-            <div style="background: white; padding: 20px; border-radius: 15px; width: 100%;">
-                <!-- Tumeruhusu audio kupakia vizuri kwenye simu bila kulazimisha autoplay inayozuiwa -->
-                <audio id="thowPlayer" controls preload="none" style="width: 100%;">
-                    <source src="https://158.220.108.124/listen/thow_fm_radio/radio.mp3" type="audio/mpeg">
-                    Kivinjari chako hakisapoti audio player hii.
-                </audio>
+            <!-- Eneo la player likiwa na Iframe yako mpya -->
+            <div style="background: white; padding: 10px; border-radius: 15px; width: 100%; height: 170px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                <iframe src="https://158.220.108.124/public/thow_fm_radio/embed" frameborder="0" allowtransparency="true" style="width: 100%; min-height: 150px; height: 150px; border: 0;"></iframe>
             </div>
             <p style="margin-top: 15px; font-weight: 600;">Pastor Arnold Zacharia</p>
         </div>
@@ -371,29 +367,6 @@
         <p>© 2026 THOW FM RADIO- The House of Winners Ministry</p>
         <p style="font-size: 0.8rem; opacity: 0.6; margin-top: 10px;">Design powered by TTD +255 757 344 860</p>
     </footer>
-
-    <!-- JavaScript ya kudhibiti mawimbi na kuzuia bando kuliwa wakati redio ipo pause -->
-    <script>
-        const player = document.getElementById('thowPlayer');
-        const waveBars = document.querySelectorAll('.wave-bar');
-        const streamUrl = "https://158.220.108.124/listen/thow_fm_radio/radio.mp3";
-
-        player.addEventListener('play', () => {
-            // Anzisha upya uelekeo wa stream ili iplay 'Live' badala ya ku-buffer ya nyuma
-            if(player.src !== streamUrl) {
-                player.src = streamUrl;
-                player.load();
-                player.play();
-            }
-            waveBars.forEach(bar => bar.style.animationPlayState = 'running');
-        });
-
-        player.addEventListener('pause', () => {
-            waveBars.forEach(bar => bar.style.animationPlayState = 'paused');
-            // Kata muunganisho kabisa ili isile bando mteja akiwa amepause
-            player.src = "";
-        });
-    </script>
 
 </body>
 </html>
