@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>THOW FM RADIO| Sauti ya Ushindi</title>
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@700;800&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght=700;800&family=Poppins:wght=300;400;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
     <style>
@@ -129,6 +129,7 @@
             background: var(--primary-orange);
             border-radius: 10px;
             animation: wave-animation 1s ease-in-out infinite;
+            animation-play-state: paused;
         }
 
         .wave-bar:nth-child(2) { animation-delay: 0.1s; }
@@ -296,9 +297,12 @@
                 <div class="wave-bar"></div>
             </div>
 
-            <!-- Eneo la player likiwa na Iframe yako mpya -->
-            <div style="background: white; padding: 10px; border-radius: 15px; width: 100%; height: 170px; display: flex; align-items: center; justify-content: center; overflow: hidden;">
-                <iframe src="https://158.220.108.124/public/thow_fm_radio/embed" frameborder="0" allowtransparency="true" style="width: 100%; min-height: 150px; height: 150px; border: 0;"></iframe>
+            <!-- Mfumo ulioboreshwa kwa ajili ya simu (Cross-Origin Audio Fix) -->
+            <div style="background: white; padding: 15px; border-radius: 15px; width: 100%;">
+                <audio id="thowPlayer" controls crossorigin="anonymous" preload="none" style="width: 100%;">
+                    <source src="https://158.220.108.124/listen/thow_fm_radio/radio.mp3" type="audio/mpeg">
+                    Kivinjari chako hakisapoti audio player hii.
+                </audio>
             </div>
             <p style="margin-top: 15px; font-weight: 600;">Pastor Arnold Zacharia</p>
         </div>
@@ -367,6 +371,27 @@
         <p>© 2026 THOW FM RADIO- The House of Winners Ministry</p>
         <p style="font-size: 0.8rem; opacity: 0.6; margin-top: 10px;">Design powered by TTD +255 757 344 860</p>
     </footer>
+
+    <script>
+        const player = document.getElementById('thowPlayer');
+        const waveBars = document.querySelectorAll('.wave-bar');
+        const streamUrl = "https://158.220.108.124/listen/thow_fm_radio/radio.mp3";
+
+        player.addEventListener('play', () => {
+            // Huu mstari unasaidia kulazimisha simu ivute upya live stream kila mtumiaji anapobonyeza play
+            if(!player.src || player.src === window.location.href) {
+                player.src = streamUrl;
+            }
+            waveBars.forEach(bar => bar.style.animationPlayState = 'running');
+        });
+
+        player.addEventListener('pause', () => {
+            waveBars.forEach(bar => bar.style.animationPlayState = 'paused');
+            // Inakata muunganisho kuzuia bando kuendelea kuliwa chinichini kwenye simu
+            player.src = ""; 
+            player.load();
+        });
+    </script>
 
 </body>
 </html>
