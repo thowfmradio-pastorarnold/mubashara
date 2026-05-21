@@ -126,7 +126,6 @@
             box-shadow: inset 0 2px 5px rgba(0,0,0,0.1);
         }
 
-        /* Muonekano mpya wa Kitufe cha Play/Pause kwenye Simu */
         .play-btn {
             background: var(--primary-orange);
             color: white;
@@ -299,14 +298,12 @@
         <h2 class="main-title">THOW FM RADIO</h2>
         
         <div class="radio-card" id="live">
-            <!-- Muundo Mpya wa Kicheza Sauti unaofanya kazi 100% kwenye Simu zote -->
             <div class="embed-container">
                 <button class="play-btn" id="customPlayBtn" onclick="toggleRadio()">
                     <i class="fas fa-play" id="playIcon"></i>
                 </button>
                 <div class="player-status" id="playerStatus">Bofya ucheze Mubashara</div>
                 
-                <!-- Tag ya siri ya audio itakayopokea amri kutoka kwenye kitufe cha juu -->
                 <audio id="thowPlayer" preload="none" crossorigin="anonymous"></audio>
             </div>
             <p style="margin-top: 15px; font-weight: 600;">Pastor Arnold Zacharia</p>
@@ -377,21 +374,16 @@
         <p style="font-size: 0.8rem; opacity: 0.6; margin-top: 10px;">Design powered by TTD +255 757 344 860</p>
     </footer>
 
-    <!-- Logic Mpya ya Kuzuia Cache na kulazimisha Simu Iplay mara moja -->
     <script>
         const player = document.getElementById('thowPlayer');
         const playIcon = document.getElementById('playIcon');
         const playerStatus = document.getElementById('playerStatus');
-        const streamUrl = "https://thowfmradio.duckdns.org/listen/thow_fm_radio/radio.mp3";
+        const streamUrl = "https://pastoraloyce.duckdns.org/listen/thow_fm_radio/radio.mp3";
 
         function toggleRadio() {
             if (player.paused || player.src === "") {
-                // Kila akibonyeza play, tunaweka namba ya kipekee nyuma ya link (busting cache) 
-                // Hii inalazimisha simu kuvuta mzigo mpya wa live badala ya kukwama
                 player.src = streamUrl + "?v=" + new Date().getTime(); 
-                
                 playerStatus.innerText = "Inapakia sauti (Loading)...";
-                
                 player.play()
                     .then(() => {
                         playIcon.className = "fas fa-pause";
@@ -403,7 +395,6 @@
                     });
             } else {
                 player.pause();
-                // Tunafuta chanzo kabisa ili kukata data matumizi ya bando yaisisomeke chinichini
                 player.src = ""; 
                 player.load();
                 playIcon.className = "fas fa-play";
@@ -411,6 +402,5 @@
             }
         }
     </script>
-
 </body>
 </html>
